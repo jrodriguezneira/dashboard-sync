@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Card = ({item}) => {
+const Card = ({item,index}) => {
   return (
-   <div key={item.title} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg w-1/5 p-4 pt-9 rounded-2xl">
+   <div key={item.title} id={index} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg w-1/5 p-4 pt-9 rounded-2xl">
                  <button
                    type="button"
                    style={{ color: item.iconColor, backgroundColor: item.iconBg }}

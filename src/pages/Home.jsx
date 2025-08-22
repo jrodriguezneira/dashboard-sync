@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState} from 'react';
 import { BsCurrencyDollar } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
@@ -8,9 +8,7 @@ import { Stacked, Pie, Button, LineChart, Card, SparkLine } from '../components'
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
-
-const URL='https://staging-sr9-loy-ing-awsserv.site/inx/loy/pro_stats.php';
-const BASE_URL = "https://staging-sr9-loy-ing-awsserv.site/inx/loy/pro_stats.php";
+import {getStats} from "../hooks/stats";
 
 
 const DropDown = ({ currentMode }) => (
@@ -20,7 +18,30 @@ const DropDown = ({ currentMode }) => (
 );
 
 const Home = () => {
-  const { currentColor, currentMode } = useStateContext();
+  const { currentColor, currentMode} = useStateContext();
+  
+  const [stats, setStats] = useState([]);
+  const [error, seterror] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadStats = async () => {
+          try {
+            const mainStats = await getStats();  
+            console.log("Raw response:", mainStats);
+
+            setStats(mainStats);
+           // console.log("Raw response:", mainStats);
+          } catch (err) {   
+            console.error("Error fetching stats:",err)
+            //seterror("Failed to fetch stats",err);
+
+          } finally { 
+           // setLoading(false); 
+          } 
+        }
+        loadStats();
+      }, []); 
 
   return (
     <div className="mt-24">
@@ -29,22 +50,25 @@ const Home = () => {
 
            {/* Stats Cards  */}
           {earningData.map((item,index) => (
-           <Card item={item} key={index}/>
+           <Card item={item,index} key={index}/>
           ))}
 
-          {/* import useUsers from "./useUsers";
+              <div className="movies-grid">
+          
 
-          function UsersPage() {
-            const { users, loading } = useUsers();
 
-            if (loading) return <p>Loading...</p>;
+                    {stats.map((stat, index) => (
+                      <div key={index}>
+                        {Object.entries(stat).map(([key, value]) => (
+                          <p key={key}>
+                            {key}: {value}
+                           
+                          </p>
+                        ))}
+                      </div>
+                    ))}
 
-            return (
-              <div>
-                {users.map(user => <p key={user.id}>{user.name}</p>)}
               </div>
-            );
-          } */}
 
         </div>
       </div>
