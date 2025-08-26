@@ -3,12 +3,11 @@ import { BsCurrencyDollar } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-
-import { Stacked, Pie, Button, LineChart, Card, SparkLine } from '../components';
+import { Stacked, Pie, Button, LineChart, Card, CardPortrait, SparkLine } from '../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
-import {getStats} from "../hooks/stats";
+import {getStats,getStocks} from "../hooks/stats";
 
 
 const DropDown = ({ currentMode }) => (
@@ -21,18 +20,23 @@ const Home = () => {
 
       const { currentColor, currentMode} = useStateContext(); 
       const [stats, setStats] = useState([]);
+      const [stocks, setStocks] = useState([]);
 
         useEffect(() => {
           const loadStats = async () => {
             try {
-              const mainStats = await getStats();  
-              console.log("Raw response:", mainStats);
+              const mainStats = await getStats();
+              const mainStocks = await getStocks();
 
               const statsArray = Object.entries(mainStats[0]).map(([key, value]) => ({
                 [key]: value,
               }));
+              const stocksArray = Object.entries(mainStocks[0]).map(([key, value]) => ({
+                [key]: value,
+              }));
 
               setStats(statsArray);
+              setStocks(stocksArray);
 
             } catch (err) {   
               console.error("Error fetching stats:", err);
@@ -44,6 +48,11 @@ const Home = () => {
         const combined = earningData.map((earning, index) => ({
           ...earning,
           ...stats[index],
+        }));
+
+          const combinedStocks = recentTransactions.map((recent, index) => ({
+          ...recent,
+          ...stocks[index],
         }));
 
   return (
@@ -61,23 +70,19 @@ const Home = () => {
       <div className="flex gap-10 flex-wrap justify-center">
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
             <div className="flex justify-between">
-              <p className="font-semibold text-xl">Products Available</p>
-          
+              <p className="font-semibold text-xl">Products Available</p>          
             </div>
-            <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            
+            <div className="mt-10 flex gap-10 flex-wrap justify-center">            
               <div>
                 <Stacked currentMode={currentMode} width="30%" height="360px" />
               </div>
             </div>
           </div>
-        <div>
+      <div>
          
 
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
-        
-
-                <div className="w-100">
+      <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
+          <div className="w-100">
                   <Pie id="pie-chart" data={ecomPieChartData} legendVisiblity={true} height="400px" />
                 </div>
           </div>
@@ -87,34 +92,17 @@ const Home = () => {
       <div className="flex gap-10 m-4 flex-wrap justify-center">
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
           <div className="flex justify-between items-center gap-2">
-            <p className="text-xl font-semibold">Stocks</p>
-            
+            <p className="text-xl font-semibold">Stocks</p>           
           </div>
           <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4">
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    style={{
-                      color: item.iconColor,
-                      backgroundColor: item.iconBg,
-                    }}
-                    className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                  >
-                    {item.icon}
-                  </button>
-                  <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
-                  </div>
-                </div>
-                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-              </div>
+      
+             {combinedStocks.map((item, index) => (
+              <CardPortrait key={index} item={item} />
             ))}
-          </div>
-          
-        </div>
+
+        </div> 
+              
+       </div>
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
           <div className="flex justify-between items-center gap-2 mb-10">
             <p className="text-xl font-semibold">Messages</p>
@@ -122,7 +110,6 @@ const Home = () => {
           <div className="md:w-full overflow-auto">
             <p>There are 64 offers with no stock </p>
             <p> Last products launched (View Products)</p>
-
           </div>
         </div>
       </div>

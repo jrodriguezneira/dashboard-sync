@@ -7,7 +7,7 @@ import { IoMdContacts } from 'react-icons/io';
 import { RiContactsLine, RiStockLine } from 'react-icons/ri';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
-import { TiTick } from 'react-icons/ti';
+import { TiTick, TiTimes } from 'react-icons/ti';
 import { GiLouvrePyramid } from 'react-icons/gi';
 import { GrLocation } from 'react-icons/gr';
 import avatar from './avatar.jpg';
@@ -662,17 +662,17 @@ export const recentTransactions = [
     title: 'In Stock',
     iconColor: 'rgb(0, 194, 146)',
     iconBg: 'rgb(235, 250, 242)',
-    pcColor: 'red-600',
+    pcColor: 'green-600',
   },
   {
-    icon: <TiTick />,
+    icon: <TiTimes />,
     amount: '+$350',
     title: 'Out of Stock',
     desc: 'products',
 
     iconColor: 'rgb(228, 106, 118)',
     iconBg: 'rgb(255, 244, 229)',
-    pcColor: 'green-600',
+    pcColor: 'red-600',
   },
 ];
 
@@ -3128,8 +3128,8 @@ export const ecomPieChartData = [
 
 export const stackedChartData = [
   [
-    { x: 'Jan', y: 111.1 },
-    { x: 'Feb', y: 127.3 },
+    { x: 'Feb', y: 111.1 },
+    { x: 'Jan', y: 127.3 },
     { x: 'Mar', y: 143.4 },
     { x: 'Apr', y: 159.9 },
     { x: 'May', y: 159.9 },
@@ -3176,8 +3176,8 @@ export const stackedPrimaryXAxis = {
 export const stackedPrimaryYAxis = {
   lineStyle: { width: 0 },
   minimum: 100,
-  maximum: 400,
-  interval: 100,
+  maximum: 2500,
+  interval: 200,
   majorTickLines: { width: 0 },
   majorGridLines: { width: 1 },
   minorGridLines: { width: 1 },

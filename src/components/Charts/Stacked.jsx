@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect,useState} from 'react';
+import {getProdmon} from "../../hooks/stats";
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, StackingColumnSeries, Tooltip } from '@syncfusion/ej2-react-charts';
 
 import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
@@ -6,6 +7,54 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const Stacked = ({ width, height }) => {
   const { currentMode } = useStateContext();
+  const [prodmon, setProdmon] = useState([]);
+
+
+
+
+
+
+    useEffect(() => {
+          const loadProds = async () => {
+            try {
+              const mainProds = await getProdmon(); 
+              setProdmon(mainProds);
+
+            } catch (err) {   
+              console.error("Error fetching prods:", err);
+            }
+          };
+          loadProds();
+        }, []);
+        console.log("Prodmon",prodmon);
+
+        const normalizeChartData = (prodmon) => {
+  // If the API returns an object with numeric keys → convert to array
+  const valuesArray = Array.isArray(prodmon)
+    ? prodmon
+    : Object.values(prodmon);
+
+  return valuesArray.map(item => ({
+    x: item.x,
+    y: Number(item.y), // ensure number
+  }));
+};
+
+const chartData = normalizeChartData(prodmon);
+console.log("Normalized Chart Data:", chartData);
+
+   const stackedCustomSeriesX = [
+  
+    { dataSource: chartData,
+      xName: 'x',
+      yName: 'y',
+      name: 'Products x Month',
+      type: 'StackingColumn',
+      background: 'blue',
+  
+    },
+  ];
+
 
   return (
     <ChartComponent
@@ -22,7 +71,7 @@ const Stacked = ({ width, height }) => {
       <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
       <SeriesCollectionDirective>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {stackedCustomSeries.map((item, index) => <SeriesDirective key={index} {...item} />)}
+        {stackedCustomSeriesX.map((item, index) => <SeriesDirective key={index} {...item} />)}
       </SeriesCollectionDirective>
     </ChartComponent>
   );
