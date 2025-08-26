@@ -4,13 +4,14 @@ const Card = ({item}) => {
   return (
    
                         
-        <div className="bg-white h-34 dark:text-gray-200 dark:bg-secondary-dark-bg w-1/5 p-4 pt-9 rounded-2xl">
-
+        <div className="bg-white flex-1 h-30 dark:text-gray-200 dark:bg-secondary-dark-bg p-4 bg-white rounded-2xl shadow-lg">
+            <div className="flex justify-end">
             <div
-                className="w-10 h-10 flex items-center justify-center rounded-full"
+                className="w-12 h-12 flex items-center justify-center rounded-full"
                 style={{ backgroundColor: item.iconBg, color: item.iconColor }}
             >
                 {item.icon}
+            </div>
             </div>
             <h3 className="text-lg font-semibold">{item.title}</h3>
             {/* <p className="text-xl">{item.amount}</p> */}

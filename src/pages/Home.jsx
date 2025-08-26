@@ -63,7 +63,7 @@ const Home = () => {
   return (
     <div className="mt-24">
       <div className="w-full flex flex-wrap lg:flex-nowrap justify-center ">
-        <div className="flex w-full flex-wrap justify-center gap-7 items-center bg-no-repeat bg-cover bg-center">
+        <div className="flex w-full mx-auto px-6 flex-wrap justify-center gap-7 items-center bg-no-repeat bg-cover bg-center">
 
             {combined.map((item, index) => (
               <Card key={index} item={item} />
@@ -73,8 +73,8 @@ const Home = () => {
       </div>
 
       <div className="flex gap-10 flex-wrap justify-center">
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
-            <div className="flex justify-between">
+          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780 shadow-lg ">
+            <div className="flex justify-between ">
               <p className="font-semibold text-xl">Products Available</p>          
             </div>
             <div className="mt-10 flex gap-10 flex-wrap justify-center">            
@@ -86,10 +86,10 @@ const Home = () => {
       <div>
          
 
-      <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
+      <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10 shadow-lg">
                
 
-              <div className="w-300">
+              <div className="w-300 " >
 
                 <div className="flex justify-start">
               <p className="font-semibold text-xl">Categories</p>          
@@ -101,8 +101,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex gap-10 m-4 flex-wrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
+      <div className="flex gap-10 m-4 flex-wrap justify-center ">
+        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl shadow-lg">
           <div className="flex justify-between items-center gap-2">
             <p className="text-xl font-semibold">Stocks</p>           
           </div>
@@ -115,8 +115,8 @@ const Home = () => {
         </div> 
               
        </div>
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
-          <div className="flex justify-between items-center gap-2 mb-10">
+        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760 shadow-lg">
+          <div className="flex justify-between items-center gap-2 mb-10 ">
             <p className="text-xl font-semibold">Messages</p>
           </div>
           <div className="md:w-full overflow-auto">
