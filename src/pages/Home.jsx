@@ -63,7 +63,7 @@ const Home = () => {
   return (
     <div className="mt-24">
       <div className="w-full flex flex-wrap lg:flex-nowrap justify-center ">
-        <div className="flex w-full mx-auto px-6 flex-wrap justify-center gap-7 items-center bg-no-repeat bg-cover bg-center">
+        <div className="flex w-full mx-auto px-11 flex-wrap justify-center gap-7 items-center bg-no-repeat bg-cover bg-center">
 
             {combined.map((item, index) => (
               <Card key={index} item={item} />
