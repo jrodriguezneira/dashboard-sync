@@ -9,32 +9,33 @@ const Doughnut = ({ id, data, legendVisiblity, height }) => {
   return (
     <AccumulationChartComponent
       id={id}
-      legendSettings={{ visible: legendVisiblity, background: 'white' }}
+      legendSettings={{ visible: legendVisiblity, position: 'Bottom', background: 'white' }}
       height={height}
+      width='300px'
       background={currentMode === 'Dark' ? '#33373E' : '#fff'}
       tooltip={{ enable: true }}
     >
       <Inject services={[AccumulationLegend, PieSeries, AccumulationDataLabel, AccumulationTooltip]} />
       <AccumulationSeriesCollectionDirective>
         <AccumulationSeriesDirective
-          name="Sale"
+          name="Category"
           dataSource={data}
           xName="x"
           yName="y"
-          innerRadius="40%"
+          innerRadius="60%"
           startAngle={0}
           endAngle={360}
-          radius="70%"
+          radius="90%"
           explode
           explodeOffset="10%"
           explodeIndex={2}
           dataLabel={{
-            visible: true,
+            visible: false,
             name: 'text',
-            position: 'Inside',
+            position: 'Outside',
             font: {
               fontWeight: '600',
-              color: '#fff',
+              color: '#000',
             },
           }}
         />

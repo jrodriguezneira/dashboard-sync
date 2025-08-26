@@ -656,7 +656,7 @@ export const earningData = [
 export const recentTransactions = [
 
   {
-    icon: <BsShield />,
+    icon: <TiTick />,
     amount: '-$560',
     desc: 'products',
     title: 'In Stock',
@@ -3120,10 +3120,10 @@ export const contextMenuItems = [
 ];
 
 export const ecomPieChartData = [
-  { x: '2018', y: 18, text: '35%' },
-  { x: '2019', y: 18, text: '15%' },
-  { x: '2020', y: 18, text: '25%' },
-  { x: '2021', y: 18, text: '25%' },
+  { x: 'Mobiles', y: '85' },
+  { x: 'IoT', y: '15' },
+  { x: 'Tablets', y: 45 },
+  { x: 'Calls', y: 5 },
 ];
 
 export const stackedChartData = [
@@ -3177,7 +3177,7 @@ export const stackedPrimaryYAxis = {
   lineStyle: { width: 0 },
   minimum: 100,
   maximum: 2500,
-  interval: 200,
+  interval: 300,
   majorTickLines: { width: 0 },
   majorGridLines: { width: 1 },
   minorGridLines: { width: 1 },

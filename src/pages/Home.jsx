@@ -7,7 +7,7 @@ import { Stacked, Pie, Button, LineChart, Card, CardPortrait, SparkLine } from '
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
-import {getStats,getStocks} from "../hooks/stats";
+import {getProdcats, getStats,getStocks} from "../hooks/stats";
 
 
 const DropDown = ({ currentMode }) => (
@@ -21,12 +21,16 @@ const Home = () => {
       const { currentColor, currentMode} = useStateContext(); 
       const [stats, setStats] = useState([]);
       const [stocks, setStocks] = useState([]);
+      const [cats, setCats] = useState([]);
+
 
         useEffect(() => {
           const loadStats = async () => {
             try {
               const mainStats = await getStats();
               const mainStocks = await getStocks();
+              const mainCats = await getProdcats();
+
 
               const statsArray = Object.entries(mainStats[0]).map(([key, value]) => ({
                 [key]: value,
@@ -37,6 +41,7 @@ const Home = () => {
 
               setStats(statsArray);
               setStocks(stocksArray);
+              setCats(mainCats);
 
             } catch (err) {   
               console.error("Error fetching stats:", err);
@@ -82,8 +87,15 @@ const Home = () => {
          
 
       <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
-          <div className="w-100">
-                  <Pie id="pie-chart" data={ecomPieChartData} legendVisiblity={true} height="400px" />
+               
+
+              <div className="w-300">
+
+                <div className="flex justify-start">
+              <p className="font-semibold text-xl">Categories</p>          
+            </div>  
+           
+                  <Pie id="pie-chart" data={cats} legendVisiblity={true} height="full" />
                 </div>
           </div>
         </div>
@@ -109,6 +121,7 @@ const Home = () => {
           </div>
           <div className="md:w-full overflow-auto">
             <p>There are 64 offers with no stock </p>
+            <br></br>
             <p> Last products launched (View Products)</p>
           </div>
         </div>
