@@ -472,41 +472,41 @@ export const links = [
     title: 'Catalogue',
     links: [
       {
-        name: 'orders',
-        icon: <AiOutlineShoppingCart />,
-      },
-      {
-        name: 'employees',
+        name: 'products',
         icon: <IoMdContacts />,
       },
-      {
-        name: 'customers',
-        icon: <RiContactsLine />,
+       {
+        name: 'launches',
+        icon: <AiOutlineStock />,
+      },
+         {
+        name: 'stocks',
+        icon: <AiOutlineStock />,
       },
     ],
   },
   {
-    title: 'Offers',
+    title: 'Promotions',
     links: [
       {
-        name: 'line',
+        name: 'offers',
         icon: <AiOutlineStock />,
-      },
-      {
-        name: 'area',
-        icon: <AiOutlineAreaChart />,
-      },
-
-      {
-        name: 'bar',
-        icon: <AiOutlineBarChart />,
-      },
-      {
-        name: 'pie',
-        icon: <FiPieChart />,
       },
     ],
   },
+  //   {
+  //   title: 'Categories',
+  //   links: [
+  //     {
+  //       name: 'categories',
+  //       icon: <IoMdContacts />,
+  //     },
+  //     {
+  //       name: 'families',
+  //       icon: <RiContactsLine />,
+  //     },
+  //   ],
+  // },
 ];
 
 export const cartData = [

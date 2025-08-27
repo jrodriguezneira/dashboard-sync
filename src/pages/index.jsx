@@ -1,7 +1,9 @@
 export { default as Home } from './Home';
 export { default as Kanban } from './Kanban';
 export { default as Orders } from './Orders';
-export { default as Employees } from './Employees';
+export { default as Products } from './Products';
+export { default as Launches } from './Launches';
+export { default as Offers } from './Offers';
 export { default as Editor } from './Editor';
 export { default as Customers } from './Customers';
 export { default as ColorPicker } from './ColorPicker';
