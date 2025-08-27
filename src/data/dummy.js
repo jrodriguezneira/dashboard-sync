@@ -477,11 +477,11 @@ export const links = [
       },
        {
         name: 'launches',
-        icon: <AiOutlineStock />,
+        icon: <RiContactsLine />,
       },
          {
         name: 'stocks',
-        icon: <AiOutlineStock />,
+        icon: <FiBarChart />,
       },
     ],
   },
