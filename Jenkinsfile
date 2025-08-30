@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USER = 'percomms'
-        IMAGE_NAME = "${DOCKERHUB_USER}/react-app"
+        IMAGE_NAME = "${DOCKERHUB_USER}/reactdash"
     }
 
     stages {
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 sh """
                 kubectl apply -f k8s/deployment.yaml
-                kubectl set image deployment/react-app react-app=${DOCKERHUB_USER}/react-app:${BUILD_NUMBER}
+                kubectl set image deployment/reactdash reactdash=${DOCKERHUB_USER}/reactdash:${BUILD_NUMBER}
                 """
             }
         }
