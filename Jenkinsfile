@@ -2,22 +2,21 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'your-dockerhub-username'
-        DOCKERHUB_PASS = credentials('dockerhub-password-id') // Jenkins credentials
+        DOCKERHUB_USER = 'percomms'
         IMAGE_NAME = "${DOCKERHUB_USER}/react-app"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/your-react-repo.git'
+                git 'https://github.com/jrodriguezneira/dashboard-sync.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}:latest")
+                    appImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
                 }
             }
         }
@@ -25,8 +24,9 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-password-id') {
-                        docker.image("${IMAGE_NAME}:latest").push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                        appImage.push()
+                        appImage.push("latest")
                     }
                 }
             }
@@ -34,10 +34,10 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
+                sh """
                 kubectl apply -f k8s/deployment.yaml
-                kubectl set image deployment/react-app react-app=${DOCKERHUB_USER}/react-app:latest
-                '''
+                kubectl set image deployment/react-app react-app=${DOCKERHUB_USER}/react-app:${BUILD_NUMBER}
+                """
             }
         }
     }
