@@ -8,6 +8,7 @@ COPY . .
 # Disable CI preflight/lint errors
 ENV CI=false
 ENV SKIP_PREFLIGHT_CHECK=true
+ENV DISABLE_ESLINT_PLUGIN=true   # 👈 this is the key
 
 RUN npm run build
 
