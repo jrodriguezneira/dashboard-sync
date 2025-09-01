@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/jrodriguezneira/dashboard-sync.git'
+                git branch: 'main', url: 'https://github.com/jrodriguezneira/dashboard-sync.git'
             }
         }
 
