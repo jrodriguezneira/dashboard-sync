@@ -15,15 +15,12 @@ const Card = ({item}) => {
             </div>
             <h3 className="text-lg font-semibold">{item.title}</h3>
             {/* <p className="text-xl">{item.amount}</p> */}
-            
 
             {/* render stat value */}
             {Object.entries(item).map(([key, value]) => {
                 if (["icon","iconBg","iconColor","pcColor","amount","title","percentage"].includes(key)) return null;
                 return <p key={key}> {value}</p>
             })}
-            {/* <p key={key}> {value}</p> */}
-
         </div>
   )
 }
