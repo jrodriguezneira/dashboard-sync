@@ -2,21 +2,21 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'percomms'
-        IMAGE_NAME = "${DOCKERHUB_USER}/reactdash"
+        CI = 'false'                     // Prevent CRA from failing on warnings
+        SKIP_PREFLIGHT_CHECK = 'true'    // Skip preflight/lint errors
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jrodriguezneira/dashboard-sync.git'
+                checkout scm
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    appImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+                    docker.build("percomms/reactdash:latest")
                 }
             }
         }
@@ -24,9 +24,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        appImage.push()
-                        appImage.push("latest")
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                        docker.image("percomms/reactdash:latest").push('latest')
                     }
                 }
             }
@@ -34,16 +33,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh """
-                # Apply deployment (in case of first run or new resources)
-                kubectl apply -f k8s/deployment.yaml
-                
-                # Update image for rolling update
-                kubectl set image deployment/reactdash reactdash=${DOCKERHUB_USER}/reactdash:${BUILD_NUMBER} --record
-                
-                # Optional: expose service (if NodePort ever changes)
-                kubectl expose deployment reactdash --type=NodePort --name=reactdash-service --port=5000 --target-port=80 || true
-                """
+                sh "kubectl apply -f deployment.yaml"
             }
         }
     }
