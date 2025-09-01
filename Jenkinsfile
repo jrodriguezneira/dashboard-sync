@@ -35,8 +35,14 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh """
+                # Apply deployment (in case of first run or new resources)
                 kubectl apply -f k8s/deployment.yaml
-                kubectl set image deployment/reactdash reactdash=${DOCKERHUB_USER}/reactdash:${BUILD_NUMBER}
+                
+                # Update image for rolling update
+                kubectl set image deployment/reactdash reactdash=${DOCKERHUB_USER}/reactdash:${BUILD_NUMBER} --record
+                
+                # Optional: expose service (if NodePort ever changes)
+                kubectl expose deployment reactdash --type=NodePort --name=reactdash-service --port=5000 --target-port=80 || true
                 """
             }
         }
