@@ -1,8 +1,9 @@
 import React, { useEffect,useState} from 'react';
 import {getProducts} from "../hooks/stats";
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
+// import {DownloadButton} from '../components';
 
-import { Header } from '../components';
+import { Header} from '../components';
 
 const Products = () => {
   const toolbarOptions = ['Search'];
@@ -68,8 +69,27 @@ useEffect(() => {
 }, []);
 console.log("Prods:", prods);
 
+const handleDownload = (url) => {
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = url; // e.g. "https://staging-sr9-loy-ing-awsserv.site/inx/loy/currentprice.php?rep=excel"
+  document.body.appendChild(iframe);
+
+  // optional: clean up later
+  setTimeout(() => {
+    document.body.removeChild(iframe);
+  }, 5000);
+};
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <span> 
+
+      <button onClick={() => handleDownload("https://staging-sr9-loy-ing-awsserv.site/inx/loy/currentprice.php?rep=excel")}>
+  Download
+</button>
+
+      </span>
       <Header category="Page" title="Products" />
       <GridComponent
         dataSource={prods}

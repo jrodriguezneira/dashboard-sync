@@ -1,4 +1,5 @@
 export { default as Button } from './Button';
+export { default as DownloadButton } from './DownloadButton';
 export { default as ThemeSettings } from './ThemeSettings';
 export { default as Sidebar } from './Sidebar';
 // eslint-disable-next-line import/no-cycle
