@@ -1,6 +1,6 @@
 import React, { useEffect,useState} from 'react';
 import {getProducts} from "../hooks/stats";
-import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
+import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page, Toolbar } from '@syncfusion/ej2-react-grids';
 // import {DownloadButton} from '../components';
 
 import { Header} from '../components';
@@ -14,38 +14,38 @@ const Products = () => {
   const productsGrid = [
 
   { field: 'sku',
-    headerText: 'sku',
+    headerText: 'SKU',
     width: '80',
     textAlign: 'Center',
   },
   { field: 'name',
-    headerText: 'name',
+    headerText: 'NAME',
     width: '170',
     textAlign: 'Center',
   },
   { field: 'rrp',
-    headerText: 'rrp',
+    headerText: 'RRP',
     width: '135',
     format: 'yMd',
     textAlign: 'Center' },
   { field: 'top',
-    headerText: 'top',
+    headerText: 'TOP POINTS',
     width: '120',
     textAlign: 'Center' },
   { field: 'pay',
-    headerText: 'pay',
+    headerText: 'PAY',
     width: '125',
     textAlign: 'Center' },
     { field: 'offer',
-    headerText: 'offer',
+    headerText: 'OFFER',
     width: '125',
     textAlign: 'Center' },
     { field: 'ro',
-    headerText: 'ro',
+    headerText: 'RO',
     width: '125',
     textAlign: 'Center' },
     { field: 'check',
-    headerText: 'check',
+    headerText: 'CHECK',
     width: '125',
     textAlign: 'Center' },
 ];
@@ -85,26 +85,29 @@ const handleDownload = (url) => {
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <span> 
 
-      <button onClick={() => handleDownload("https://staging-sr9-loy-ing-awsserv.site/inx/loy/currentprice.php?rep=excel")}>
-  Download
-</button>
+      
 
       </span>
-      <Header category="Page" title="Products" />
+      <Header category="" title="Products" />
+      <button onClick={() => handleDownload("https://staging-sr9-loy-ing-awsserv.site/inx/loy/currentprice.php?rep=excel")}>
+        Download
+      </button>
       <GridComponent
         dataSource={prods}
+        enableAltRow={true} 
+        gridLines="Both"
         width="auto"
         allowPaging
         allowSorting
-        pageSettings={{ pageCount: 5 }}
+        pageSettings={{ pageCount: 5, pageSize: 15 }}
         editSettings={editing}
-        toolbar={toolbarOptions}
+        toolbar={['Search']}
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           {productsGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
         </ColumnsDirective>
-        <Inject services={[Search, Page]} />
+        <Inject services={[Search, Page, Toolbar]} />
 
       </GridComponent>
     </div>

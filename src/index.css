@@ -9,6 +9,21 @@ body{
   margin-top: 3rem !important;
 }
 
+/* White background for normal rows */
+.e-grid .e-row {
+  background-color: white;
+}
+
+/* Light grey background for alternate rows */
+.e-grid .e-altrow {
+  background-color: #f7f7f7; /* or #f0f0f0 */
+}
+
+/* Make only the SKU header bold */
+.e-grid .e-headercell .e-headertext {
+  font-weight: bold !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
