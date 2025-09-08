@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: reactdash
-          image: percomms/reactdash:<commit-hash>
+          image: percomms/reactdash:latest # placeholder; actual image set by Jenkins
           imagePullPolicy: Always
           ports:
-            - containerPort: 80 # internal port stays 80
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -29,7 +29,7 @@ spec:
     app: reactdash
   ports:
     - protocol: TCP
-      port: 5000 # external service port (NodePort)
-      targetPort: 80 # maps to containerPort
-      nodePort: 30080 # external node port
+      port: 5000       # external service port
+      targetPort: 80   # container port
+      nodePort: 30080  # external NodePort
   type: NodePort

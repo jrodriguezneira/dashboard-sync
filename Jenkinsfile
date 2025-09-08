@@ -2,38 +2,29 @@ pipeline {
     agent any
 
     environment {
-        CI = 'false'                     // Prevent CRA from failing on warnings
-        SKIP_PREFLIGHT_CHECK = 'true'    // Skip preflight/lint errors
+        CI = 'false'
+        SKIP_PREFLIGHT_CHECK = 'true'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-
-    stage('Build Docker Image') {
-        steps {
-            script {
-                // Use Git commit hash as tag
-                def gitCommit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                docker.build("percomms/reactdash:${gitCommit}")
-                docker.withRegistry('', 'dockerhub') {
-                    docker.image("percomms/reactdash:${gitCommit}").push()
+                script {
+                    env.GIT_COMMIT = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
                 }
-
-                // Optionally update latest tag too
-                docker.image("percomms/reactdash:${gitCommit}").push('latest')
             }
         }
-    }
 
-        stage('Push to Docker Hub') {
+        stage('Build & Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        docker.image("percomms/reactdash:${gitCommit}").push('latest')
+                    def imageName = "percomms/reactdash:${env.GIT_COMMIT}"
+                    docker.build(imageName)
+
+                    docker.withRegistry('', 'dockerhub') {
+                        docker.image(imageName).push()       // push commit hash tag
+                        docker.image(imageName).push('latest') // optional latest tag
                     }
                 }
             }
@@ -42,7 +33,13 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 withEnv(["KUBECONFIG=/var/jenkins_home/.kube/config"]) {
-                    sh "kubectl apply -f k8s/deployment.yaml"
+                    script {
+                        // Update deployment to use the new commit hash tag
+                        sh """
+                        kubectl set image deployment/reactdash reactdash=percomms/reactdash:${env.GIT_COMMIT} -n default
+                        kubectl rollout status deployment/reactdash -n default
+                        """
+                    }
                 }
             }
         }
