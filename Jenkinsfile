@@ -13,19 +13,27 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("percomms/reactdash:latest")
+    stage('Build Docker Image') {
+        steps {
+            script {
+                // Use Git commit hash as tag
+                def gitCommit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                docker.build("percomms/reactdash:${gitCommit}")
+                docker.withRegistry('', 'docker-credentials-id') {
+                    docker.image("percomms/reactdash:${gitCommit}").push()
                 }
+
+                // Optionally update latest tag too
+                docker.image("percomms/reactdash:${gitCommit}").push('latest')
             }
         }
+    }
 
         stage('Push to Docker Hub') {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        docker.image("percomms/reactdash:latest").push('latest')
+                        docker.image("percomms/reactdash:${gitCommit}").push('latest')
                     }
                 }
             }

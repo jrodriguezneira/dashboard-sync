@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: reactdash
-          image: percomms/reactdash:latest
+          image: percomms/reactdash:<commit-hash>
           imagePullPolicy: Always
           ports:
             - containerPort: 80 # internal port stays 80
