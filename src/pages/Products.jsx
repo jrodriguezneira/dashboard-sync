@@ -4,6 +4,8 @@ import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page,
 // import {DownloadButton} from '../components';
 
 import { Header} from '../components';
+import { L10n } from '@syncfusion/ej2-base';
+
 
 const Products = () => {
   const toolbarOptions = ['Search'];
@@ -15,7 +17,7 @@ const Products = () => {
 
   { field: 'sku',
     headerText: 'SKU',
-    width: '80',
+    width: '120',
     textAlign: 'Center',
   },
   { field: 'name',
@@ -81,6 +83,14 @@ const handleDownload = (url) => {
   }, 5000);
 };
 
+L10n.load({
+  'en-US': {
+    grid: {
+      EmptyRecord: 'Loading...'
+    }
+  }
+});
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <span> 
@@ -89,11 +99,17 @@ const handleDownload = (url) => {
 
       </span>
       <Header category="" title="Products" />
+      
       <button onClick={() => handleDownload("https://staging-sr9-loy-ing-awsserv.site/inx/loy/currentprice.php?rep=excel")}>
-        Download
+        <button className="e-btn e-flat">
+        <span className="e-btn-icon e-icons e-download"></span> Download
       </button>
+      </button>
+
       <GridComponent
         dataSource={prods}
+        //dataSource={loading ? [] : prods}
+        locale="en-US"
         enableAltRow={true} 
         gridLines="Both"
         width="auto"

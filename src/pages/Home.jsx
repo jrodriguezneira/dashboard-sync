@@ -1,4 +1,5 @@
 import React, { useEffect,useState} from 'react';
+import { Link } from "react-router-dom";
 import { BsCurrencyDollar } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
@@ -120,9 +121,9 @@ const Home = () => {
             <p className="text-xl font-semibold">Messages</p>
           </div>
           <div className="md:w-full overflow-auto">
-            <p>There are 64 offers with no stock </p>
+            <p>There are offers without stock <Link className="text-blue-500 hover:text-blue-700" to="/offers"> Offers</Link></p>
             <br></br>
-            <p> Last products launched (View Products)</p>
+            <p> Last products launched <Link className="text-blue-500 hover:text-blue-700 " to="/products"> Products</Link></p>
           </div>
         </div>
       </div>

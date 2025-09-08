@@ -1,6 +1,6 @@
 import React, { useEffect,useState} from 'react';
 import {getOffers} from "../hooks/stats";
-import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
+import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page, Toolbar } from '@syncfusion/ej2-react-grids';
 
 import { Header } from '../components';
 
@@ -57,13 +57,13 @@ useEffect(() => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Page" title="Products" />
+      <Header category="" title="Offers" />
       <GridComponent
         dataSource={prodoffers}
         width="auto"
         allowPaging
         allowSorting
-        pageSettings={{ pageCount: 5 }}
+        pageSettings={{ pageCount: 5, pageSize: 15  }}
         editSettings={editing}
         toolbar={toolbarOptions}
       >
@@ -71,7 +71,7 @@ useEffect(() => {
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           {offersGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
         </ColumnsDirective>
-        <Inject services={[Search, Page]} />
+        <Inject services={[Search, Page, Toolbar]} />
 
       </GridComponent>
     </div>
