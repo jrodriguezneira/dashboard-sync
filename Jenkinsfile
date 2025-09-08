@@ -19,7 +19,7 @@ pipeline {
                 // Use Git commit hash as tag
                 def gitCommit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
                 docker.build("percomms/reactdash:${gitCommit}")
-                docker.withRegistry('', 'docker-credentials-id') {
+                docker.withRegistry('', 'dockerhub') {
                     docker.image("percomms/reactdash:${gitCommit}").push()
                 }
 
